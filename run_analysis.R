@@ -47,6 +47,5 @@ names(tidy_data_summary_sd) <- c("Activity code", "Activity label", "Standard De
 # export data 
 
 write.table(tidy_data_summary, file = "tidy_data_summary.txt")
-write.table(all_data, file = "tidy_data.txt")
 
 
