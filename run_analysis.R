@@ -9,6 +9,9 @@ library(dplyr)
 "y_test" <- read.table("y_test.txt", header = FALSE, sep = "")
 "activity_labels" <- read.table("activity_labels.txt", header = FALSE, sep = "")
 
+# view the file 
+View(x_train)
+
 ## Merges the training and the test sets to create one data set.
 
 names(activity_labels) <- c("Activity_code", "Activity_label")  # labelling name
@@ -31,9 +34,19 @@ View(all_data)
 
 # Extracts only the measurements on the mean and standard deviation for each measurement.
 
-"tidy_data" <- reshape2::dcast(data = all_data, all_data$Activity_code + all_data$Activity_label ~ ., fun.aggregate = mean)
-names(tidy_data) <- c("Activity code", "Activity label", "Mean")
+"tidy_data_summary_mean" <- reshape2::dcast(data = all_data, all_data$Activity_code + all_data$Activity_label ~ ., fun.aggregate = mean)
+names(tidy_data_summary_mean) <- c("Activity code", "Activity label", "Mean")
+
+"tidy_data_summary_sd" <- reshape2::dcast(data = all_data, all_data$Activity_code + all_data$Activity_label ~ ., fun.aggregate = sd)
+names(tidy_data_summary_sd) <- c("Activity code", "Activity label", "Standard Deviation")
+
+
+"tidy_data_summary" <- merge(tidy_data_summary_mean, tidy_data_summary_sd)
+
 
 # export data 
 
-write.table(tidy_data, file = "tidy_data.txt")
+write.table(tidy_data_summary, file = "tidy_data_summary.txt")
+write.table(all_data, file = "tidy_data.txt")
+
+
